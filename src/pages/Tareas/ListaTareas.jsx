@@ -6,6 +6,7 @@ import "./ListaTareas.css";
 
 import {
     obtenerTareas,
+    obtenerTareaPorId,
     eliminarTarea,
     crearTarea,
     actualizarTarea,
@@ -15,12 +16,10 @@ import {
 } from "../../api/tareaApi";
 
 
-
 function ListaTareas() {
 
 
     const navigate = useNavigate();
-
 
 
     const [tareas,setTareas] = useState([]);
@@ -30,6 +29,8 @@ function ListaTareas() {
     const [prioridades,setPrioridades] = useState([]);
 
 
+
+    const [buscarId,setBuscarId] = useState("");
 
     const [editando,setEditando] = useState(false);
 
@@ -41,23 +42,15 @@ function ListaTareas() {
 
 
 
-
     const [tareaActual,setTareaActual] = useState({
 
         id:null,
-
         titulo:"",
-
         descripcion:"",
-
         estadoId:1,
-
         prioridadId:1
 
     });
-
-
-
 
 
 
@@ -75,20 +68,13 @@ function ListaTareas() {
 
 
 
-
-
-
     const cargarTareas = async()=>{
-
 
         try{
 
-
             const response = await obtenerTareas();
 
-
             setTareas(response.data);
-
 
         }
         catch(error){
@@ -97,11 +83,7 @@ function ListaTareas() {
 
         }
 
-
     };
-
-
-
 
 
 
@@ -110,23 +92,20 @@ function ListaTareas() {
 
     const cargarCatalogos = async()=>{
 
-
         try{
 
-
-            const estados =
+            const estadosResponse =
                 await obtenerEstados();
 
 
-            const prioridades =
+            const prioridadesResponse =
                 await obtenerPrioridades();
 
 
 
-            setEstados(estados.data);
+            setEstados(estadosResponse.data);
 
-
-            setPrioridades(prioridades.data);
+            setPrioridades(prioridadesResponse.data);
 
 
         }
@@ -136,10 +115,7 @@ function ListaTareas() {
 
         }
 
-
     };
-
-
 
 
 
@@ -153,15 +129,13 @@ function ListaTareas() {
         try{
 
 
-            if(!filtroEstado && !filtroPrioridad)
-            {
+            if(!filtroEstado && !filtroPrioridad){
 
                 cargarTareas();
 
                 return;
 
             }
-
 
 
 
@@ -175,7 +149,6 @@ function ListaTareas() {
                 );
 
 
-
             setTareas(response.data);
 
 
@@ -183,6 +156,49 @@ function ListaTareas() {
         catch(error){
 
             console.log(error);
+
+        }
+
+
+    };
+
+
+
+
+
+
+
+
+    const consultarPorId = async()=>{
+
+
+        try{
+
+
+            if(!buscarId){
+
+                cargarTareas();
+
+                return;
+
+            }
+
+
+
+            const response =
+                await obtenerTareaPorId(buscarId);
+
+
+
+            setTareas([response.data]);
+
+
+        }
+        catch(error){
+
+            console.log(error);
+
+            setTareas([]);
 
         }
 
@@ -205,18 +221,15 @@ function ListaTareas() {
 
             const datos = {
 
+                id:tareaActual.id,
 
                 titulo:tareaActual.titulo,
 
-
                 descripcion:tareaActual.descripcion,
-
 
                 estadoId:Number(tareaActual.estadoId),
 
-
                 prioridadId:Number(tareaActual.prioridadId)
-
 
             };
 
@@ -226,10 +239,7 @@ function ListaTareas() {
 
 
 
-
-
-            if(tareaActual.id)
-            {
+            if(tareaActual.id){
 
 
                 await actualizarTarea(
@@ -242,8 +252,7 @@ function ListaTareas() {
 
 
             }
-            else
-            {
+            else{
 
 
                 await crearTarea(datos);
@@ -253,12 +262,9 @@ function ListaTareas() {
 
 
 
-
             limpiar();
 
-
             setEditando(false);
-
 
             cargarTareas();
 
@@ -267,12 +273,13 @@ function ListaTareas() {
         }
         catch(error){
 
-
             console.log(
-                "ERROR API:",
-                error.response?.data
-            );
 
+                "ERROR API:",
+
+                error.response?.data
+
+            );
 
         }
 
@@ -320,6 +327,12 @@ function ListaTareas() {
 
 
     const eliminar = async(id)=>{
+
+
+        if(!window.confirm("¿Deseas eliminar esta tarea?"))
+
+            return;
+
 
 
         try{
@@ -375,157 +388,164 @@ function ListaTareas() {
 
 
 
+return (
 
+<Layout>
 
-    return (
 
-        <Layout>
+<div className="lista-container">
 
 
-            <div className="lista-container">
 
+<div className="titulo-container">
 
 
+<h1>
+Lista de tareas
+</h1>
 
 
-                <div className="titulo-container">
 
+<button
+onClick={()=>navigate("/dashboard")}
+>
 
-                    <h1>
-                        Lista de tareas
-                    </h1>
+Regresar Dashboard
 
+</button>
 
 
+</div>
 
-                    <button
 
-                    onClick={()=>navigate("/dashboard")}
 
-                    >
 
-                        Regresar Dashboard
 
-                    </button>
 
 
-                </div>
 
 
+<div className="filtros">
 
 
 
 
+<input
 
+    type="text"
 
+    placeholder="Buscar por ID"
 
-                <div className="filtros">
+    value={buscarId}
 
+    onChange={e=>{
 
+        const valor = e.target.value;
 
-                    <select
+        if(/^\d*$/.test(valor)){
 
-                    value={filtroEstado}
+            setBuscarId(valor);
 
-                    onChange={
-                        e=>setFiltroEstado(e.target.value)
-                    }
+        }
 
-                    >
+    }}
 
+/>
 
-                        <option value="">
-                            Todos los estados
-                        </option>
 
+<button onClick={consultarPorId}>
+Buscar ID
+</button>
 
 
-                        {
-                            estados.map(e=>(
 
 
-                                <option
 
-                                key={e.id}
 
-                                value={e.id}
+<select
 
-                                >
+value={filtroEstado}
 
-                                    {e.nombre}
+onChange={e=>setFiltroEstado(e.target.value)}
 
-                                </option>
+>
 
 
-                            ))
-                        }
+<option value="">
+Todos los estados
+</option>
 
 
 
-                    </select>
+{
 
+estados.map(e=>(
 
+<option
 
+key={e.id}
 
+value={e.id}
 
+>
 
+{e.nombre}
 
+</option>
 
 
-                    <select
+))
 
+}
 
-                    value={filtroPrioridad}
 
+</select>
 
-                    onChange={
-                        e=>setFiltroPrioridad(e.target.value)
-                    }
 
 
-                    >
 
 
-                        <option value="">
-                            Todas las prioridades
-                        </option>
 
 
 
-                        {
-                            prioridades.map(p=>(
+<select
 
+value={filtroPrioridad}
 
-                                <option
+onChange={e=>setFiltroPrioridad(e.target.value)}
 
-                                key={p.id}
+>
 
-                                value={p.id}
 
-                                >
+<option value="">
+Todas las prioridades
+</option>
 
-                                    {p.nombre}
 
-                                </option>
 
+{
 
-                            ))
-                        }
+prioridades.map(p=>(
 
+<option
 
-                    </select>
+key={p.id}
 
+value={p.id}
 
+>
 
+{p.nombre}
 
+</option>
 
 
+))
 
-                    <button onClick={buscar}>
+}
 
-                        Buscar
 
-                    </button>
+</select>
 
 
 
@@ -533,30 +553,33 @@ function ListaTareas() {
 
 
 
-                    <button
+<button onClick={buscar}>
+Buscar
+</button>
 
-                    onClick={()=>{
 
 
-                        limpiar();
 
 
-                        setEditando(true);
+<button
 
+onClick={()=>{
 
-                    }}
+limpiar();
 
-                    >
+setEditando(true);
 
+}}
 
-                        Nueva tarea
+>
 
+Nueva tarea
 
-                    </button>
+</button>
 
 
 
-                </div>
+</div>
 
 
 
@@ -566,145 +589,146 @@ function ListaTareas() {
 
 
 
-                <table>
+<table>
 
 
-                    <thead>
+<thead>
 
+<tr>
 
-                        <tr>
+<th>ID</th>
 
+<th>Título</th>
 
-                            <th>
-                                Título
-                            </th>
+<th>Descripción</th>
 
+<th>Estado</th>
 
-                            <th>
-                                Descripción
-                            </th>
+<th>Prioridad</th>
 
+<th>Acciones</th>
 
-                            <th>
-                                Estado
-                            </th>
+</tr>
 
+</thead>
 
-                            <th>
-                                Prioridad
-                            </th>
 
 
-                            <th>
-                                Acciones
-                            </th>
 
 
-                        </tr>
+<tbody>
 
 
-                    </thead>
+{
 
+tareas.length === 0 ?
 
 
+<tr>
 
+<td colSpan="6">
 
+No existen tareas
 
+</td>
 
-                    <tbody>
+</tr>
 
 
 
-                    {
+:
 
 
-                    tareas.map(t=>(
+tareas.map(t=>(
 
 
-                        <tr key={t.id}>
+<tr key={t.id}>
 
 
-                            <td>
+<td>
 
-                                {t.titulo}
+{t.id}
 
-                            </td>
+</td>
 
 
 
-                            <td>
+<td>
 
-                                {t.descripcion}
+{t.titulo}
 
-                            </td>
+</td>
 
 
 
-                            <td>
+<td>
 
-                                {t.estado}
+{t.descripcion}
 
-                            </td>
+</td>
 
 
 
-                            <td>
+<td>
 
-                                {t.prioridad}
+{t.estado}
 
-                            </td>
+</td>
 
 
 
-                            <td>
+<td>
 
+{t.prioridad}
 
-                                <button
+</td>
 
-                                onClick={()=>editar(t)}
 
-                                >
 
-                                    Editar
 
-                                </button>
+<td>
 
 
+<button
 
+onClick={()=>editar(t)}
 
+>
 
-                                <button
+Editar
 
-                                onClick={()=>eliminar(t.id)}
+</button>
 
-                                >
 
-                                    Eliminar
 
-                                </button>
+<button
 
+onClick={()=>eliminar(t.id)}
 
-                            </td>
+>
 
+Eliminar
 
+</button>
 
-                        </tr>
 
+</td>
 
-                    ))
 
 
-                    }
+</tr>
 
 
+))
 
-                    </tbody>
 
+}
 
 
-                </table>
+</tbody>
 
 
+</table>
 
 
 
@@ -714,166 +738,186 @@ function ListaTareas() {
 
 
 
+{
 
-                {
+editando &&
 
 
-                editando &&
+<div className="formulario-tarea">
 
 
+<h2>
 
-                <div className="formulario-tarea">
+{
 
+tareaActual.id
 
-                    <h2>
+?
 
+"Editar tarea"
 
-                        {
+:
 
-                        tareaActual.id
+"Nueva tarea"
 
-                        ?
+}
 
-                        "Editar tarea"
 
-                        :
+</h2>
 
-                        "Nueva tarea"
 
 
-                        }
 
 
-                    </h2>
 
 
+<input
 
+placeholder="Título"
 
+value={tareaActual.titulo}
 
+onChange={e=>
 
+setTareaActual({
 
+...tareaActual,
 
+titulo:e.target.value
 
-                    <input
+})
 
+}
 
-                    placeholder="Título"
+/>
 
 
-                    value={tareaActual.titulo}
 
 
-                    onChange={e=>
 
-                        setTareaActual({
 
-                            ...tareaActual,
+<textarea
 
-                            titulo:e.target.value
+placeholder="Descripción"
 
-                        })
+value={tareaActual.descripcion}
 
+onChange={e=>
 
-                    }
+setTareaActual({
 
+...tareaActual,
 
-                    />
+descripcion:e.target.value
 
+})
 
+}
 
+/>
 
 
 
 
 
 
-                    <textarea
 
+<select
 
-                    placeholder="Descripción"
+value={tareaActual.estadoId}
 
+onChange={e=>
 
-                    value={tareaActual.descripcion}
+setTareaActual({
 
+...tareaActual,
 
-                    onChange={e=>
+estadoId:e.target.value
 
-                        setTareaActual({
+})
 
-                            ...tareaActual,
+}
 
-                            descripcion:e.target.value
+>
 
-                        })
 
+{
 
-                    }
+estados.map(e=>(
 
 
-                    />
+<option
 
+key={e.id}
 
+value={e.id}
 
+>
 
+{e.nombre}
 
+</option>
 
 
+))
 
 
-                    <select
+}
 
 
-                    value={tareaActual.estadoId}
+</select>
 
 
-                    onChange={e=>
 
-                        setTareaActual({
 
-                            ...tareaActual,
 
-                            estadoId:e.target.value
 
-                        })
 
 
-                    }
+<select
 
+value={tareaActual.prioridadId}
 
-                    >
+onChange={e=>
 
+setTareaActual({
 
+...tareaActual,
 
-                    {
+prioridadId:e.target.value
 
+})
 
-                    estados.map(e=>(
+}
 
+>
 
-                        <option
 
-                        key={e.id}
+{
 
-                        value={e.id}
+prioridades.map(p=>(
 
-                        >
 
+<option
 
-                            {e.nombre}
+key={p.id}
 
+value={p.id}
 
-                        </option>
+>
 
+{p.nombre}
 
-                    ))
+</option>
 
 
-                    }
+))
 
 
+}
 
-                    </select>
 
+</select>
 
 
 
@@ -882,125 +926,48 @@ function ListaTareas() {
 
 
 
-                    <select
+<button onClick={guardar}>
 
+Guardar
 
-                    value={tareaActual.prioridadId}
+</button>
 
 
-                    onChange={e=>
 
-                        setTareaActual({
 
-                            ...tareaActual,
 
-                            prioridadId:e.target.value
+<button
 
-                        })
+onClick={()=>{
 
+limpiar();
 
-                    }
+setEditando(false);
 
+}}
 
-                    >
+>
 
+Cancelar
 
+</button>
 
-                    {
 
 
-                    prioridades.map(p=>(
+</div>
 
 
-                        <option
+}
 
-                        key={p.id}
 
-                        value={p.id}
 
-                        >
+</div>
 
 
-                            {p.nombre}
+</Layout>
 
+);
 
-                        </option>
-
-
-                    ))
-
-
-                    }
-
-
-
-                    </select>
-
-
-
-
-
-
-
-
-
-                    <button
-
-                    onClick={guardar}
-
-                    >
-
-                        Guardar
-
-                    </button>
-
-
-
-
-
-
-
-                    <button
-
-
-                    onClick={()=>{
-
-
-                        limpiar();
-
-
-                        setEditando(false);
-
-
-                    }}
-
-
-                    >
-
-
-                        Cancelar
-
-
-                    </button>
-
-
-
-                </div>
-
-
-
-                }
-
-
-
-            </div>
-
-
-
-        </Layout>
-
-
-    );
 
 }
 

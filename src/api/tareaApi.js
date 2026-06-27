@@ -24,6 +24,12 @@ export const actualizarTarea = (id,tarea) => {
 };
 
 
+export const obtenerTareaPorId = (id) => {
+
+    return api.get(`/Tareas/${id}`);
+
+};
+
 
 export const eliminarTarea = (id) => {
 
@@ -33,13 +39,13 @@ export const eliminarTarea = (id) => {
 
 
 
-export const filtrarTareas = (id, prioridadId) => {
+export const filtrarTareas = (estadoId, prioridadId) => {
 
     return api.get("/Tareas/Filtrar", {
 
         params:{
-            id:id,
-            prioridadId:prioridadId
+            estadoId: estadoId,
+            prioridadId: prioridadId
         }
 
     });
