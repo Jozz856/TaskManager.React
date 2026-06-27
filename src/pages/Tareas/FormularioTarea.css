@@ -1,0 +1,85 @@
+.formulario-container{
+
+    padding:30px;
+
+}
+
+
+.formulario-container h1{
+
+    margin-bottom:25px;
+
+}
+
+
+.formulario-tarea{
+
+    background:white;
+
+    width:500px;
+
+    padding:25px;
+
+    border-radius:12px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.1);
+
+}
+
+
+.formulario-tarea input,
+.formulario-tarea textarea,
+.formulario-tarea select{
+
+    padding:10px;
+
+    border-radius:8px;
+
+    border:1px solid #ccc;
+
+    font-size:15px;
+
+}
+
+
+.formulario-tarea textarea{
+
+    height:120px;
+
+    resize:none;
+
+}
+
+
+.formulario-tarea button{
+
+    margin-top:15px;
+
+    padding:12px;
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+
+.formulario-tarea button:hover{
+
+    opacity:.85;
+
+}

@@ -1,0 +1,490 @@
+.lista-container{
+
+    padding:30px;
+
+    background:#f8fafc;
+
+    min-height:100%;
+
+}
+
+
+
+/* ===========================
+   TITULO
+=========================== */
+
+.titulo-container{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+}
+
+
+.titulo-container h1{
+
+    color:#1e293b;
+
+    font-size:28px;
+
+}
+
+
+
+/* ===========================
+   BOTON DASHBOARD
+=========================== */
+
+
+.titulo-container button{
+
+    background:#334155;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-weight:600;
+
+}
+
+
+
+.titulo-container button:hover{
+
+    background:#0f172a;
+
+}
+
+
+
+
+
+
+
+
+/* ===========================
+   FILTROS
+=========================== */
+
+
+.filtros{
+
+
+    display:flex;
+
+    gap:15px;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    margin-bottom:25px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+
+}
+
+
+
+
+
+.filtros select{
+
+
+    padding:11px 15px;
+
+    border-radius:8px;
+
+    border:1px solid #cbd5e1;
+
+    outline:none;
+
+    font-size:14px;
+
+    background:white;
+
+
+}
+
+
+
+.filtros select:focus{
+
+    border-color:#2563eb;
+
+}
+
+
+
+
+
+
+.filtros button{
+
+
+    padding:11px 20px;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+
+
+.filtros button:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+
+
+
+
+/* NUEVA TAREA */
+
+
+.filtros button:last-child{
+
+
+    background:#16a34a;
+
+
+}
+
+
+.filtros button:last-child:hover{
+
+
+    background:#15803d;
+
+
+}
+
+
+
+
+
+
+
+
+/* ===========================
+   TABLA
+=========================== */
+
+
+table{
+
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:white;
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+
+}
+
+
+
+thead{
+
+
+    background:#2563eb;
+
+    color:white;
+
+
+}
+
+
+
+th{
+
+
+    padding:15px;
+
+    text-align:left;
+
+    font-size:14px;
+
+
+}
+
+
+
+td{
+
+
+    padding:14px;
+
+    border-bottom:1px solid #e2e8f0;
+
+    color:#334155;
+
+
+}
+
+
+
+tbody tr:hover{
+
+
+    background:#f1f5f9;
+
+
+}
+
+
+
+
+
+
+
+
+/* ===========================
+   BOTONES TABLA
+=========================== */
+
+
+td button{
+
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    margin-right:8px;
+
+    font-weight:600;
+
+
+}
+
+
+
+
+
+td button:first-child{
+
+
+    background:#f59e0b;
+
+    color:white;
+
+
+}
+
+
+
+td button:first-child:hover{
+
+
+    background:#d97706;
+
+
+}
+
+
+
+
+
+
+td button:last-child{
+
+
+    background:#dc2626;
+
+    color:white;
+
+
+}
+
+
+
+td button:last-child:hover{
+
+
+    background:#b91c1c;
+
+
+}
+
+
+
+
+
+
+
+
+/* ===========================
+   FORMULARIO
+=========================== */
+
+
+.formulario-tarea{
+
+
+    margin-top:30px;
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+
+}
+
+
+
+.formulario-tarea h2{
+
+
+    color:#1e293b;
+
+
+}
+
+
+
+
+
+.formulario-tarea input,
+
+
+.formulario-tarea textarea,
+
+
+.formulario-tarea select{
+
+
+    padding:12px;
+
+    border-radius:8px;
+
+    border:1px solid #cbd5e1;
+
+    font-size:14px;
+
+}
+
+
+
+.formulario-tarea textarea{
+
+
+    min-height:100px;
+
+    resize:none;
+
+
+}
+
+
+
+
+.formulario-tarea button{
+
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+
+
+.formulario-tarea button:first-of-type{
+
+
+    background:#2563eb;
+
+    color:white;
+
+
+}
+
+
+
+.formulario-tarea button:first-of-type:hover{
+
+
+    background:#1d4ed8;
+
+
+}
+
+
+
+.formulario-tarea button:last-child{
+
+
+    background:#64748b;
+
+    color:white;
+
+
+}
+
+
+
+.formulario-tarea button:last-child:hover{
+
+
+    background:#475569;
+
+
+}

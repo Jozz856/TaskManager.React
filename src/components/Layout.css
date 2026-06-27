@@ -1,0 +1,13 @@
+.layout-container {
+    min-height: 100vh;
+    background: #f5f7fb;
+}
+
+
+/* contenido principal */
+.layout-content {
+
+    margin-left: 240px;
+    padding: 30px;
+
+}
