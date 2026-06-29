@@ -9,7 +9,7 @@ import NuevaTarea from "./pages/Tareas/NuevaTarea";
 import EditarTarea from "./pages/Tareas/EditarTarea";
 import DetalleTarea from "./pages/Tareas/DetalleTarea";
 
-import Logs from "./pages/Logs/Logs";
+import Logs from "./pages/Logs/Logs.jsx";
 
 function App() {
 
